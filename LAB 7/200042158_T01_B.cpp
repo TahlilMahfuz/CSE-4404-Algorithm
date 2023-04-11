@@ -11,8 +11,9 @@
 using namespace std;
 
 int n;
-vector<int>v,p;
+vector<int>v;
 int dp[1000][1000];
+int pref[1000];
 
 int sum(int s,int e){
     int ans=0;
@@ -21,6 +22,9 @@ int sum(int s,int e){
         ans%=100;
     }
     return ans;
+}
+int findsum(int i, int j) {
+    return (i == 0) ? pref[j] : pref[j] - pref[i-1];
 }
 
 int findMix(int i,int j){
@@ -31,7 +35,8 @@ int findMix(int i,int j){
     int mini=INT_MAX;
     
     for(int k=i;k<=j;k++){
-        dp[i][j]=min(mini,findMix(i,k)+findMix(k+1,j)+sum(i,k)*sum(k+1,j));
+        // dp[i][j]=min(mini,findMix(i,k)+findMix(k+1,j)+sum(i,k)*sum(k+1,j));
+        dp[i][j]=min(mini,findMix(i,k)+findMix(k+1,j)+findsum(i,k)*findsum(k+1,j));
     }
     return dp[i][j];
 }
@@ -42,12 +47,11 @@ signed main(){
         int a;cin>>a;
         v.push_back(a);
     }
-    vector<int>pref(n,v[0]);
+    // for(auto e:v){cout<<e;}
+    pref[0]=v[0];
     for(int i=1;i<n;i++){
         pref[i]=pref[i-1]+v[i];
     }
-    p=pref;
-    // for(auto e:pref){cout<<e<<" ";}
     memset(dp,-1,sizeof dp);
 
     cout<<findMix(0,n-1)<<endl;
