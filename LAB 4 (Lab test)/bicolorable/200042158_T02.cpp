@@ -48,23 +48,32 @@ signed main(){
 
     int n,m;
     cin>>n>>m;
-    vector<vector<pair<int, int>>> adj(n*m);
-    for(int i=0; i<n; i++) {
-        for(int j=0; j<m; j++) {
-            int val;
-            cin>>val;
-            for(int k=0; k<4; k++) {
-                int x=i+dx[k], y=j+dy[k];
-                if(valid(x, y, n, m)) {
-                    adj[i*m+j].push_back({x*m+y, val});
+
+    vector<vector<int>> maze(n, vector<int>(m));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>maze[i][j];
+        }
+    }
+
+    int V = n*m;
+    vector<vector<pair<int, int>>> adj(V);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            int u = i*m+j;
+            for(int k=0;k<4;k++){
+                int x = i+dx[k], y = j+dy[k];
+                if(valid(x, y, n, m)){
+                    int v = x*m+y;
+                    int w = maze[x][y];
+                    adj[u].push_back({v, w});
                 }
             }
         }
     }
 
-    vector<int>res=dijkstra(n*m, adj, 0);
-    cout<<res[n*m-1]<<endl;
+    vector<int> dist = dijkstra(V, adj, 0);
+    cout<<dist[V-1]<<endl;
 
     return 0;
-
 }
