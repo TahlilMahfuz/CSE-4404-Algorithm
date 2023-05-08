@@ -56,3 +56,7 @@ signed main(){
 
     cout<<findMix(0,n-1)<<endl;
 }
+
+
+
+
