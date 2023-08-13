@@ -8,7 +8,7 @@ int mcm(int i,int j,vector<int>&arr,vector<vector<int>>&dp){
 
     int mini=INT_MAX;
     for(int k=i;k<j;k++){
-        int steps=arr[i-1]*arr[k]*arr[j]+mcm(i,k,arr,dp)+mcm(k+1,j,arr,dp);
+        int steps=mcm(i,k,arr,dp)+mcm(k+1,j,arr,dp)+arr[i-1]*arr[k]*arr[j];
         if(steps<mini){
             mini=steps;
         }
